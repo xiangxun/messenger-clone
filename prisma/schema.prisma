@@ -10,10 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
+model User {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   name              String?
-  email             String @unique
+  email             String? @unique
   emailVerified     DateTime?
   image             String?
   hashedPassword    String?
@@ -26,16 +26,16 @@ model User{
   seenMessageIds    String[] @db.ObjectId
   seenMessages      Message[] @relation("Seen", fields: [seenMessageIds], references: [id])
 
-  accouts           Account[]
+  accounts          Account[]
   messages          Message[]
 }
 
-model Account{
+model Account {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   userId            String @db.ObjectId
   type              String
   provider          String
-  providerUserId    String
+  providerAccountId String
   refresh_token     String? @db.String
   access_token      String? @db.String
   expires_at        Int?
@@ -46,31 +46,31 @@ model Account{
 
   user              User @relation(fields: [userId], references: [id],onDelete: Cascade)
 
-  @@unique([provider, providerUserId])
+  @@unique([provider, providerAccountId])
 }
 
-model Conversation{
+model Conversation {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   createdAt         DateTime @default(now())
   lastMessageAt     DateTime @default(now())
   name              String?
   isGroup           Boolean?
 
-  messageIds        String[] @db.ObjectId
+  messagesIds       String[] @db.ObjectId
   messages          Message[]
 
   userIds           String[] @db.ObjectId
   users             User[] @relation(fields: [userIds], references: [id])
 }
 
-model Message{
+model Message {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   body              String?
   image             String?
   createdAt         DateTime @default(now())
 
   seenIds           String[] @db.ObjectId
-  Seen              User[] @relation("Seen", fields: [seenIds], references: [id])
+  seen              User[] @relation("Seen", fields: [seenIds], references: [id])
 
   conversationId    String @db.ObjectId
   conversation      Conversation @relation(fields: [conversationId], references: [id],onDelete: Cascade )

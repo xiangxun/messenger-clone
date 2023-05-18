@@ -2,7 +2,7 @@ import { Conversation, Message, User } from "@prisma/client";
 
 export type FullMessageType = Message & {
   sender: User;
-  Seen: User[];
+  seen: User[];
 };
 
 export type FullConversationType = Conversation & {

@@ -17,6 +17,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   data,
   selected,
 }) => {
+  // console.log("data in ConversationBox", data);
   const otherUser = useOtherUser(data);
   const session = useSession();
   const router = useRouter();
@@ -38,7 +39,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     if (!lastMessage) {
       return false;
     }
-    const seenArray = lastMessage.Seen || [];
+    const seenArray = lastMessage.seen || [];
     if (!userEmail) {
       return false;
     }
