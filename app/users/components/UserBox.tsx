@@ -1,4 +1,5 @@
 import Avater from "@/app/components/Avater";
+import LoadingModal from "@/app/components/LoadingModal";
 import { User } from "@prisma/client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -24,19 +25,22 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       });
   }, [data, router]);
   return (
-    <div
-      onClick={handlerClick}
-      className='w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer'
-    >
-      <Avater user={data} />
-      <div className='min-w-0 flex-1'>
-        <div className='focus:outline-none'>
-          <div className='flex justify-between items-center mb-1 '>
-            <p className=''>{data.name}</p>
+    <>
+      {isLoading && <LoadingModal />}
+      <div
+        onClick={handlerClick}
+        className="w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer"
+      >
+        <Avater user={data} />
+        <div className="min-w-0 flex-1">
+          <div className="focus:outline-none">
+            <div className="flex justify-between items-center mb-1 ">
+              <p className="">{data.name}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

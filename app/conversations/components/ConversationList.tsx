@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import ConversationBox from "./ConversationBox";
-import GroupChatModal from "./GroupChatModal";
+import GroupChatModal from "@/app/conversations/components/GroupChatModal";
 import { User } from "@prisma/client";
 
 interface ConversationListProps {
@@ -27,7 +27,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
     <>
       <GroupChatModal
         users={users}
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
       <aside
@@ -36,12 +36,12 @@ const ConversationList: React.FC<ConversationListProps> = ({
           isOpen ? "hidden" : "block w-full left-0"
         )}
       >
-        <div className='px-5'>
-          <div className='flex justify-between mb-4 pt-4'>
-            <div className='text-2xl font-bold text-neutral-800'>Message</div>
+        <div className="px-5">
+          <div className="flex justify-between mb-4 pt-4">
+            <div className="text-2xl font-bold text-neutral-800">Message</div>
             <div
               onClick={() => setIsModalOpen(true)}
-              className='rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition'
+              className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition"
             >
               <MdOutlineGroupAdd size={20} />
             </div>
