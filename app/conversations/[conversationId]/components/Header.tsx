@@ -8,6 +8,7 @@ import { useMemo, useState } from "react";
 import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
 import ProfileDrawer from "./ProfileDrawer";
 import AvaterGroup from "@/app/components/AvaterGroup";
+import useActiveList from "@/app/hooks/useActiveList";
 
 interface HeaderProps {
   conversation: Conversation & {
@@ -17,13 +18,15 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ conversation }) => {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser.email!) !== -1;
 
   const statusText = useMemo(() => {
     if (conversation.isGroup) {
       return `${conversation.users.length} members`;
     }
-    return "Active";
-  }, [conversation]);
+    return isActive ? "Active" : "Offline";
+  }, [conversation, isActive]);
   return (
     <>
       <ProfileDrawer
@@ -31,11 +34,11 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       />
-      <div className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between shadow-sm">
-        <div className="flex gap-3 items-center ">
+      <div className='bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between shadow-sm'>
+        <div className='flex gap-3 items-center '>
           <Link
             href={`/conversations/`}
-            className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer"
+            className='lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer'
           >
             <HiChevronLeft size={32} />
           </Link>
@@ -44,9 +47,9 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           ) : (
             <Avater user={otherUser} />
           )}
-          <div className=" flex flex-col">
+          <div className=' flex flex-col'>
             <div>{conversation.name || otherUser.name}</div>
-            <div className="test-sm font-light text-neutral-500">
+            <div className='test-sm font-light text-neutral-500'>
               {statusText}
             </div>
           </div>
@@ -56,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           onClick={() => {
             setDrawerOpen(true);
           }}
-          className="text-sky-500 cursor-pointer hover:text-sky-600 transition"
+          className='text-sky-500 cursor-pointer hover:text-sky-600 transition'
         />
       </div>
     </>

@@ -9,6 +9,7 @@ const useOtherUser = (
   const session = useSession();
   const otherUser = useMemo(() => {
     const currentUserEmail = session?.data?.user?.email;
+    // console.log(conversation.users, currentUserEmail, "OTHER_USER");
     const otherUser = conversation.users.filter(
       (user) => user.email !== currentUserEmail
     );
